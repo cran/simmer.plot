@@ -1,3 +1,14 @@
+# simmer.plot 0.1.5
+
+## Minor changes and fixes
+
+* Fix plot of trajectories without forks or rollbacks (332ec61).
+* Fix plot of trajectories with a single node (f787c95).
+* Fail gracefully with empty trajectories (2d42d7f).
+* Fail gracefully if `simmer` doesn't return pointers (3be41cf, a60a641). This should not happen, though.
+* Improve tests (a9e7fa0).
+* Update to DiagrammeR 0.9.0 (dbc01b8).
+
 # simmer.plot 0.1.4
 
 ## Minor changes and fixes

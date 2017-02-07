@@ -1,5 +1,5 @@
 ## ---- echo = FALSE, message = FALSE--------------------------------------
-knitr::opts_chunk$set(collapse = T, comment = "#>", 
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", 
                       fig.width = 6, fig.height = 4, fig.align = "center")
 
 ## ---- message=FALSE------------------------------------------------------
@@ -36,10 +36,10 @@ library(simmer.plot)
 plot(envs, what = "resources", metric = "utilization", c("nurse", "doctor","administration"))
 
 ## ---- message=FALSE------------------------------------------------------
-plot(envs, what = "resources", metric = "usage", c("nurse", "doctor"), items = "server", steps = T)
+plot(envs, what = "resources", metric = "usage", c("nurse", "doctor"), items = "server")
 
 ## ---- message=FALSE------------------------------------------------------
-plot(envs[[6]], what = "resources", metric = "usage", "doctor", items = "server", steps = T)
+plot(envs[[6]], what = "resources", metric = "usage", "doctor", items = "server", steps = TRUE)
 
 ## ---- message=FALSE------------------------------------------------------
 plot(envs, what = "arrivals", metric = "flow_time")

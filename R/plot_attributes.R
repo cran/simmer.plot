@@ -1,15 +1,15 @@
-plot_attributes <- function(x, metric=NULL, keys=c(), ...) {
+plot_attributes <- function(x, metric=NULL, keys=NULL, ...) {
   monitor_data <- get_mon_attributes(x)
   if (length(keys) > 0)
     monitor_data <- monitor_data %>%
       dplyr::filter_(~key %in% keys)
   if (nrow(monitor_data) == 0)
-    stop("no data available")
+    stop("no data available for the 'keys' provided")
 
   plot_obj <-
     ggplot(monitor_data) +
     aes_(x = ~time, y = ~value) +
-    geom_step(alpha = .4, aes_(group = ~replication)) +
+    geom_step(aes_(group = ~replication), alpha = set_alpha(monitor_data)) +
     stat_smooth() +
     xlab("simulation time") +
     ylab("value") +

@@ -4,6 +4,7 @@
 #'
 #' @param x a simmer trajectory.
 #' @param engine a string specifying a layout engine (see \code{\link{grViz}}).
+#' @param fill discrete color palette for resource identification.
 #' @param ... additional parameters for \code{\link{render_graph}}.
 #'
 #' @return Returns an \code{htmlwidget}.
@@ -12,47 +13,29 @@
 #'
 #' @examples
 #' x <- trajectory() %>%
-#' seize("resource", 1) %>%
-#'   timeout(function() rnorm(1, 15)) %>%
-#'   release("resource", 1) %>%
-#'   branch(function() 1, c(TRUE, FALSE),
-#'          trajectory() %>%
-#'            clone(2,
-#'                  trajectory() %>%
-#'                    seize("resource", 1) %>%
-#'                    timeout(1) %>%
-#'                    release("resource", 1),
-#'                  trajectory() %>%
-#'                    trap("signal",
-#'                         handler=trajectory() %>%
-#'                           timeout(1)) %>%
-#'                    timeout(1)),
-#'          trajectory() %>%
-#'            set_attribute("dummy", 1) %>%
-#'            set_attribute("dummy", function() 1) %>%
-#'            seize("resource", function() 1) %>%
-#'            timeout(function() rnorm(1, 20)) %>%
-#'            release("resource", function() 1) %>%
-#'            rollback(9)) %>%
+#'   seize("res", 1) %>%
 #'   timeout(1) %>%
-#'   rollback(2)
+#'   release("res", 1) %>%
+#'   rollback(3)
 #'
 #' plot(x)
-plot.trajectory <- function(x, engine="dot", ...) {
+plot.trajectory <- function(x, engine="dot", fill=scales::brewer_pal("qual"), ...) {
   stopifnot(length(x) > 0)
 
-  trajectory_graph(x) %>%
+  trajectory_graph(x, fill) %>%
     DiagrammeR::set_global_graph_attrs("layout", engine, "graph") %>%
+    DiagrammeR::add_global_graph_attrs("fontname", "sans-serif", "node") %>%
+    DiagrammeR::add_global_graph_attrs("width", 1.5, "node") %>%
     DiagrammeR::render_graph(...)
 }
 
-trajectory_graph <- function(x) {
+trajectory_graph <- function(x, fill) {
   # capture output with pointers
   old_verbose <- x$verbose
   x$verbose <- TRUE
   out <- gsub("\b", "", utils::capture.output(x))
   x$verbose <- old_verbose
-  out <- out[grep("0x", out)]
+  out <- out[grep("0x", out, fixed=TRUE)]
   if (!length(out))
     stop("no activity pointers found! \n",                                                      # nocov
          "  This is embarrassing... The trajectory cannot be plotted without pointers!\n",      # nocov
@@ -62,39 +45,44 @@ trajectory_graph <- function(x) {
   ids <- sub(" ->.*", "", sub(".*<- ", "", out))
   for (i in seq_along(ids)) out <- gsub(ids[i], i, out)
 
-  # find forks & rollbacks
+  # find forks & rollbacks & seizes/releases
   level <- nchar(sub("\\{.*", "", out)) / 2
   forks <- which(diff(level) == 1)
-  rollbacks <- grep("Rollback", out)
+  rollbacks <- grep("Activity: Rollback", out, fixed=TRUE)
+  seizes <- grep("Activity: Seize", out, fixed=TRUE)
+  releases <- grep("Activity: Release", out, fixed=TRUE)
+
   # find activity names
   out <- sub(".*Activity: ", "", out)
-  nodes <- as.data.frame(sub(" .*", "", out), stringsAsFactors=FALSE)
-  colnames(nodes) <- "label"
-  nodes$type <- nodes$label
+  nodes <- data.frame(label = sub(" .*", "", out), stringsAsFactors=FALSE)
   nodes$shape <- "box"
-  if (length(c(forks, rollbacks)))
-    nodes[c(forks, rollbacks),]$shape <- "diamond"
+  nodes$shape[c(forks, rollbacks)] <- "diamond"
+  nodes$style <- "solid"
+  nodes$style[c(forks, rollbacks)] <- "filled"
+  nodes$style[c(seizes, releases)] <- "filled"
+  nodes$color <- "black"
+  nodes$color[c(forks, rollbacks)] <- "lightgrey"
 
   # back connections
   out <- sub("[[:alpha:]]*[[:space:]]*\\| ", "", out)
   b_edges <- suppressWarnings(
     sub(" ->.*", "", out) %>%
-      strsplit(" <- ") %>%
+      strsplit(" <- ", fixed=TRUE) %>%
       lapply(as.numeric) %>%
       as.data.frame() %>%
       t() %>%
       as.data.frame(stringsAsFactors=FALSE)
   )
+  rownames(b_edges) <- NULL
   colnames(b_edges) <- c("from", "to")
   nodes$id <- b_edges$to
   b_edges <- utils::tail(b_edges, -1)
-  rownames(b_edges) <- NULL
 
   # forward connections
   out <- sub(".*<- ", "", out)
   f_edges <- suppressWarnings(
     sub(" \\|.*", "", out) %>%
-      strsplit(" -> ") %>%
+      strsplit(" -> ", fixed=TRUE) %>%
       lapply(as.numeric) %>%
       as.data.frame() %>%
       t() %>%
@@ -104,13 +92,21 @@ trajectory_graph <- function(x) {
   colnames(f_edges) <- c("from", "to")
   f_edges <- f_edges[f_edges$to != 0 & !is.na(f_edges$to),]
 
-  # additional info & rollbacks
-  out <- sub(".*\\| ", "", out)
+  # additional info & rollbacks & resources
+  out <- sub(".* -> [[:digit:]]+ +\\| ", "", out)
   info <- sub(" \\}", "", out)
   info[rollbacks] <- sub("amount: ", "", info[rollbacks])
   amounts <- as.numeric(sub(" \\(.*", "", info[rollbacks]))
   info[rollbacks] <- sub(".*, ", "", info[rollbacks])
+  resources <- sub("resource: ", "", info[c(seizes, releases)])
+  resources <- sub(",* .*", "", resources)
   nodes$tooltip <- info
+  nodes$color[c(seizes, releases)] <- dplyr::left_join(
+      data.frame(name = resources, stringsAsFactors = FALSE),
+      data.frame(name = unique(resources),
+                 color = fill(length(unique(resources))),
+                 stringsAsFactors = FALSE),
+      by = "name")$color
 
   # resolve rollbacks from back connections
   r_edges <- NULL
@@ -134,9 +130,13 @@ trajectory_graph <- function(x) {
     edges$rel <- NA
     edges$color <- "black"
     edges$style <- "solid"
-    if (length(forks)) {
-      edges[c(forks),]$color <- "gray"
-      edges[c(forks),]$style <- "dashed"
+    for (i in forks) {
+      edges[which(edges$from == i)[-1],]$color <- "grey"
+      edges[which(edges$from == i)[-1],]$style <- "dashed"
+    }
+    for (i in rollbacks) {
+      edges[rev(which(edges$from == i))[1],]$color <- "grey"
+      edges[rev(which(edges$from == i))[1],]$style <- "dashed"
     }
   } else edges <- NULL
 

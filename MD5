@@ -1,7 +1,7 @@
-d62f6d0b90f5ef3ace28eaefa0ccf62d *DESCRIPTION
+59e379b568038443d3061b86d2ff585b *DESCRIPTION
 a6b324997da091f1af2a416902066350 *LICENSE
 637c8c5b9b3430e8a443fc316ee397eb *NAMESPACE
-64e03238b513c6d78951bd10d74367d1 *NEWS.md
+7759296840eb153d0545b0ec3f5fb6c1 *NEWS.md
 3f5b17c73385c0f4fb672a2c0531e0ae *R/plot.simmer.R
 f31b56094f6e181293b97a5061e9722c *R/plot.trajectory.R
 e1313a097b0940086eaeee39f727752a *R/plot_arrivals.R
@@ -11,10 +11,10 @@ c77650803ce84297d488fc4c625e23ae *R/plot_resources.R
 818a26e400b33caf23a224b078be4b2d *build/vignette.rds
 f3c1372daad30a6e6b75f69b6dfcca32 *inst/doc/plot.simmer.R
 6302453cc0302bb93303ee11163a8418 *inst/doc/plot.simmer.Rmd
-92a43dc128f878cabfc5499db5a82c03 *inst/doc/plot.simmer.html
+3460074b63ded33513eb8e7acd15197b *inst/doc/plot.simmer.html
 3c0bea62c5cc6ae3e5d81f19b33cf22a *inst/doc/plot.trajectory.R
 05209cf0b1ea434933007d077e8955be *inst/doc/plot.trajectory.Rmd
-b7afc902f927fc2511815da5702756d5 *inst/doc/plot.trajectory.html
+fa2afa56813358de4625305e9a9bbab4 *inst/doc/plot.trajectory.html
 03f40a4c56bef9f05aa79c60d59065a1 *man/plot.simmer.Rd
 ee49b59239dd6e67e509352da4fc3b51 *man/plot.trajectory.Rd
 0d6a2f14a539d477981a64d1c94d62c7 *tests/testthat.R
@@ -22,7 +22,7 @@ a80cf3056ed711759332cb8abc890650 *tests/testthat/test-plot-arrivals.R
 d5707b908dc9c88bf7db3fa9677b3c44 *tests/testthat/test-plot-attributes.R
 505636f8448749f3c78a4a813af95322 *tests/testthat/test-plot-resources.R
 f02a9e5f739257c0aa03e9f341c3d9aa *tests/testthat/test-plot-simmer.R
-a13adbedcb8fbb9420fe61b837d26828 *tests/testthat/test-plot-trajectory.R
+118c715a20ba7959e5fd9121b49340a7 *tests/testthat/test-plot-trajectory.R
 30b3856f0e47d8317192df27e41af661 *vignettes/includes/trajectory.svg
 6302453cc0302bb93303ee11163a8418 *vignettes/plot.simmer.Rmd
 05209cf0b1ea434933007d077e8955be *vignettes/plot.trajectory.Rmd

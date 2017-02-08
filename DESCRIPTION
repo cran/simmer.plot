@@ -1,7 +1,7 @@
 Package: simmer.plot
 Type: Package
 Title: Plotting Methods for 'simmer'
-Version: 0.1.6
+Version: 0.1.7
 Authors@R: c(
     person("Iñaki", "Ucar", email="i.ucar86@gmail.com", role=c("aut", "cph", "cre")),
     person("Bart", "Smeets", email="bartsmeets86@gmail.com", role=c("aut", "cph")))
@@ -16,9 +16,9 @@ Suggests: testthat, knitr, rmarkdown, covr
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2017-02-07 17:45:37 UTC; inaki
+Packaged: 2017-02-07 23:03:12 UTC; inaki
 Author: Iñaki Ucar [aut, cph, cre],
   Bart Smeets [aut, cph]
 Maintainer: Iñaki Ucar <i.ucar86@gmail.com>
 Repository: CRAN
-Date/Publication: 2017-02-07 18:54:06
+Date/Publication: 2017-02-08 01:28:13

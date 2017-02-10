@@ -42,6 +42,7 @@ trajectory_graph <- function(x, fill) {
          "  Please, consider filling a bug at https://github.com/r-simmer/simmer.plot/issues")  # nocov
 
   # assign reproducible identifiers
+  out <- gsub("0x0* ", "0 ", out)
   ids <- sub(" ->.*", "", sub(".*<- ", "", out))
   for (i in seq_along(ids)) out <- gsub(ids[i], i, out)
 
@@ -131,12 +132,12 @@ trajectory_graph <- function(x, fill) {
     edges$color <- "black"
     edges$style <- "solid"
     for (i in forks) {
-      edges[which(edges$from == i)[-1],]$color <- "grey"
-      edges[which(edges$from == i)[-1],]$style <- "dashed"
+      edges$color[which(edges$from == i)[-1]] <- "grey"
+      edges$style[which(edges$from == i)[-1]] <- "dashed"
     }
     for (i in rollbacks) {
-      edges[rev(which(edges$from == i))[1],]$color <- "grey"
-      edges[rev(which(edges$from == i))[1],]$style <- "dashed"
+      edges$color[rev(which(edges$from == i))[1]] <- "grey"
+      edges$style[rev(which(edges$from == i))[1]] <- "dashed"
     }
   } else edges <- NULL
 

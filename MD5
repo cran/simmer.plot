@@ -1,9 +1,9 @@
-59e379b568038443d3061b86d2ff585b *DESCRIPTION
+142dec78232e67c00a5bb38efc19e2c2 *DESCRIPTION
 a6b324997da091f1af2a416902066350 *LICENSE
 637c8c5b9b3430e8a443fc316ee397eb *NAMESPACE
-7759296840eb153d0545b0ec3f5fb6c1 *NEWS.md
+2ff7227aa5ffb2dc4cf08e9f4f5d6778 *NEWS.md
 3f5b17c73385c0f4fb672a2c0531e0ae *R/plot.simmer.R
-f31b56094f6e181293b97a5061e9722c *R/plot.trajectory.R
+528f99651b7b4f98485f72376cebb663 *R/plot.trajectory.R
 e1313a097b0940086eaeee39f727752a *R/plot_arrivals.R
 321b7b538adb0e6dd0768eca19930c5e *R/plot_attributes.R
 c77650803ce84297d488fc4c625e23ae *R/plot_resources.R
@@ -11,10 +11,10 @@ c77650803ce84297d488fc4c625e23ae *R/plot_resources.R
 818a26e400b33caf23a224b078be4b2d *build/vignette.rds
 f3c1372daad30a6e6b75f69b6dfcca32 *inst/doc/plot.simmer.R
 6302453cc0302bb93303ee11163a8418 *inst/doc/plot.simmer.Rmd
-3460074b63ded33513eb8e7acd15197b *inst/doc/plot.simmer.html
+42365ac1e5d6da652103701a7543bd39 *inst/doc/plot.simmer.html
 3c0bea62c5cc6ae3e5d81f19b33cf22a *inst/doc/plot.trajectory.R
 05209cf0b1ea434933007d077e8955be *inst/doc/plot.trajectory.Rmd
-fa2afa56813358de4625305e9a9bbab4 *inst/doc/plot.trajectory.html
+5b8d2190781f4b7d88044c4cd14f8762 *inst/doc/plot.trajectory.html
 03f40a4c56bef9f05aa79c60d59065a1 *man/plot.simmer.Rd
 ee49b59239dd6e67e509352da4fc3b51 *man/plot.trajectory.Rd
 0d6a2f14a539d477981a64d1c94d62c7 *tests/testthat.R
@@ -22,7 +22,7 @@ a80cf3056ed711759332cb8abc890650 *tests/testthat/test-plot-arrivals.R
 d5707b908dc9c88bf7db3fa9677b3c44 *tests/testthat/test-plot-attributes.R
 505636f8448749f3c78a4a813af95322 *tests/testthat/test-plot-resources.R
 f02a9e5f739257c0aa03e9f341c3d9aa *tests/testthat/test-plot-simmer.R
-118c715a20ba7959e5fd9121b49340a7 *tests/testthat/test-plot-trajectory.R
-30b3856f0e47d8317192df27e41af661 *vignettes/includes/trajectory.svg
+a48c54f77ac7d39ed701c48756f1a83d *tests/testthat/test-plot-trajectory.R
+1ff52fbe3315ab3c97852cf3184c5371 *vignettes/includes/trajectory.svg
 6302453cc0302bb93303ee11163a8418 *vignettes/plot.simmer.Rmd
 05209cf0b1ea434933007d077e8955be *vignettes/plot.trajectory.Rmd

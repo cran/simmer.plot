@@ -4,9 +4,12 @@ test_graph <- function(x, name, from, to) {
   expect_true(inherits(plot(x), "htmlwidget"))
   graph <- trajectory_graph(x, scales::brewer_pal("qual"))
   expect_true(inherits(graph, "dgr_graph"))
-  expect_true(all(graph$nodes_df$label == name))
-  expect_true(all(graph$edges_df$from == from))
-  expect_true(all(graph$edges_df$to == to))
+
+  nodes_df <- dplyr::arrange_(graph$nodes_df, "id")
+  edges_df <- dplyr::arrange_(graph$edges_df, "from", "to")
+  expect_equal(nodes_df$label, name)
+  expect_equal(edges_df$from, from)
+  expect_equal(edges_df$to, to)
 }
 
 test_that("a null trajectory fails", {
@@ -17,7 +20,7 @@ test_that("a single-node trajectory is correctly converted to graph", {
   x <- trajectory() %>%
     timeout(1)
 
-  test_graph(x, c("Timeout"), NULL, NULL)
+  test_graph(x, c("Timeout"), integer(0), integer(0))
 })
 
 test_that("a simple trajectory is correctly converted to graph", {
@@ -66,6 +69,6 @@ test_that("a complex trajectory is correctly converted to graph", {
              c("Seize", "Branch", "Clone", "Seize", "Timeout", "Release", "Trap",
                "Timeout", "Timeout", "SetAttribute", "Seize", "Timeout", "Release",
                "Release", "Rollback", "Synchronize", "Rollback", "Release"),
-             c(1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 16, 17, 2, 3, 3, 7, 2, 15, 17),
-             c(2, 16, 16, 5, 6, 16, 9, 16, 11, 12, 13, 14, 15, 17, 18, 3, 4, 7, 8, 10, 1, 2))
+             c(1, 2, 2, 2, 3, 3, 3, 4, 5, 6, 7, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 17),
+             c(2, 3, 10, 16, 4, 7, 16, 5, 6, 16, 8, 9, 16, 11, 12, 13, 14, 15, 1, 17, 2, 18))
 })

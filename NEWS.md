@@ -1,3 +1,11 @@
+# simmer.plot 0.1.9
+
+## Minor changes and fixes
+
+* Workaround for Solaris SPARC (#2).
+* Remove ignored edges in `clone()` (#6).
+* Add optional verbose info in `plot.trajectory()` labels (#5).
+
 # simmer.plot 0.1.8
 
 ## Minor changes and fixes

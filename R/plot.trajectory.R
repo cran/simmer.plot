@@ -5,6 +5,7 @@
 #' @param x a simmer trajectory.
 #' @param engine a string specifying a layout engine (see \code{\link{grViz}}).
 #' @param fill discrete color palette for resource identification.
+#' @param verbose show additional info directly in the labels.
 #' @param ... additional parameters for \code{\link{render_graph}}.
 #'
 #' @return Returns an \code{htmlwidget}.
@@ -19,22 +20,25 @@
 #'   rollback(3)
 #'
 #' plot(x)
-plot.trajectory <- function(x, engine="dot", fill=scales::brewer_pal("qual"), ...) {
+plot.trajectory <- function(x, engine="dot", fill=scales::brewer_pal("qual"), verbose=FALSE, ...) {
   stopifnot(length(x) > 0)
 
-  trajectory_graph(x, fill) %>%
+  trajectory_graph(x, fill, verbose) %>%
     DiagrammeR::set_global_graph_attrs("layout", engine, "graph") %>%
     DiagrammeR::add_global_graph_attrs("fontname", "sans-serif", "node") %>%
     DiagrammeR::add_global_graph_attrs("width", 1.5, "node") %>%
     DiagrammeR::render_graph(...)
 }
 
-trajectory_graph <- function(x, fill) {
+trajectory_graph <- function(x, fill, verbose=FALSE) {
   # capture output with pointers
   old_verbose <- x$verbose
   x$verbose <- TRUE
   out <- gsub("\b", "", utils::capture.output(x))
   x$verbose <- old_verbose
+  out <- paste0(out, "\n")
+  out <- gsub("}", "}\n", out, fixed=TRUE)
+  out <- utils::capture.output(cat(out))
   out <- out[grep("0x", out, fixed=TRUE)]
   if (!length(out))
     stop("no activity pointers found! \n",                                                      # nocov
@@ -56,6 +60,7 @@ trajectory_graph <- function(x, fill) {
   # find activity names
   out <- sub(".*Activity: ", "", out)
   nodes <- data.frame(label = sub(" .*", "", out), stringsAsFactors=FALSE)
+  nodes$type <- nodes$label
   nodes$shape <- "box"
   nodes$shape[c(forks, rollbacks)] <- "diamond"
   nodes$style <- "solid"
@@ -102,6 +107,8 @@ trajectory_graph <- function(x, fill) {
   resources <- sub("resource: ", "", info[c(seizes, releases)])
   resources <- sub(",* .*", "", resources)
   nodes$tooltip <- info
+  if (verbose)
+    nodes$label <- paste0(nodes$label, "\n", gsub("\\||,", "\n", info))
   nodes$color[c(seizes, releases)] <- dplyr::left_join(
       data.frame(name = resources, stringsAsFactors = FALSE),
       data.frame(name = unique(resources),
@@ -141,5 +148,23 @@ trajectory_graph <- function(x, fill) {
     }
   } else edges <- NULL
 
-  DiagrammeR::create_graph(nodes, edges)
+  DiagrammeR::create_graph(nodes, edges) %>%
+    postprocess_clones()
+}
+
+postprocess_clones <- function(graph) {
+  clones <- dplyr::filter_(graph$nodes_df, ~type == "Clone")
+  for (i in seq_len(nrow(clones))) {
+    n <- as.numeric(strsplit(clones[i,]$tooltip, "n: ", fixed=TRUE)[[1]][2])
+    id_clone <- clones[i,]$id
+    edges <- dplyr::filter_(graph$edges_df, ~from == id_clone)
+    if (n+1 <= nrow(edges))
+      graph <- DiagrammeR::delete_edge(graph, id=edges[1,]$id)
+    edges <- dplyr::filter_(graph$edges_df, ~from == id_clone)
+    while (n < nrow(edges)) {
+      graph <- DiagrammeR::delete_edge(graph, id=edges[nrow(edges),]$id)
+      edges <- dplyr::filter_(graph$edges_df, ~from == id_clone)
+    }
+  }
+  graph
 }

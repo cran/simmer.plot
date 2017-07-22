@@ -99,7 +99,7 @@ trajectory_graph <- function(x, fill, verbose=FALSE) {
   f_edges <- f_edges[f_edges$to != 0 & !is.na(f_edges$to),]
 
   # additional info & rollbacks & resources
-  out <- sub(".* -> [[:digit:]]+ +\\| ", "", out)
+  out <- sub(".* -> .* +\\| ", "", out)
   info <- sub(" \\}", "", out)
   info[rollbacks] <- sub("amount: ", "", info[rollbacks])
   amounts <- as.numeric(sub(" \\(.*", "", info[rollbacks]))
@@ -153,17 +153,17 @@ trajectory_graph <- function(x, fill, verbose=FALSE) {
 }
 
 postprocess_clones <- function(graph) {
-  clones <- dplyr::filter_(graph$nodes_df, ~type == "Clone")
+  clones <- dplyr::filter(graph$nodes_df, .data$type == "Clone")
   for (i in seq_len(nrow(clones))) {
     n <- as.numeric(strsplit(clones[i,]$tooltip, "n: ", fixed=TRUE)[[1]][2])
     id_clone <- clones[i,]$id
-    edges <- dplyr::filter_(graph$edges_df, ~from == id_clone)
+    edges <- dplyr::filter(graph$edges_df, .data$from == id_clone)
     if (n+1 <= nrow(edges))
       graph <- DiagrammeR::delete_edge(graph, id=edges[1,]$id)
-    edges <- dplyr::filter_(graph$edges_df, ~from == id_clone)
+    edges <- dplyr::filter(graph$edges_df, .data$from == id_clone)
     while (n < nrow(edges)) {
       graph <- DiagrammeR::delete_edge(graph, id=edges[nrow(edges),]$id)
-      edges <- dplyr::filter_(graph$edges_df, ~from == id_clone)
+      edges <- dplyr::filter(graph$edges_df, .data$from == id_clone)
     }
   }
   graph

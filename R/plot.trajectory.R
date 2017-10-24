@@ -47,7 +47,7 @@ trajectory_graph <- function(x, fill, verbose=FALSE) {
 
   # assign reproducible identifiers
   out <- gsub("0x0* ", "0 ", out)
-  ids <- sub(" ->.*", "", sub(".*<- ", "", out))
+  ids <- sub(" +->.*", "", sub(".*<- +", "", out))
   for (i in seq_along(ids)) out <- gsub(ids[i], i, out)
 
   # find forks & rollbacks & seizes/releases
@@ -115,6 +115,8 @@ trajectory_graph <- function(x, fill, verbose=FALSE) {
                  color = fill(length(unique(resources))),
                  stringsAsFactors = FALSE),
       by = "name")$color
+  nodes$fillcolor <- nodes$color
+  nodes$fontcolor <- "black"
 
   # resolve rollbacks from back connections
   r_edges <- NULL

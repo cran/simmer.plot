@@ -1,4 +1,4 @@
-#' Plot method for trajectory objects
+#' Plot Method for \code{trajectory} Objects
 #'
 #' A method for the \code{\link{plot}} generic that plots a diagram of the given trajectory.
 #'
@@ -9,7 +9,6 @@
 #' @param ... additional parameters for \code{\link{render_graph}}.
 #'
 #' @return Returns an \code{htmlwidget}.
-#' @importFrom graphics plot
 #' @export
 #'
 #' @examples

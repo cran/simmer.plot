@@ -33,14 +33,16 @@ envs <- mclapply(1:100, function(i) {
 ## ---- message=FALSE------------------------------------------------------
 library(simmer.plot)
 
-plot(envs, what = "resources", metric = "utilization", c("nurse", "doctor","administration"))
+resources <- get_mon_resources(envs)
+plot(resources, metric = "utilization")
 
 ## ---- message=FALSE------------------------------------------------------
-plot(envs, what = "resources", metric = "usage", c("nurse", "doctor"), items = "server")
+plot(resources, metric = "usage", c("nurse", "doctor"), items = "server")
 
 ## ---- message=FALSE------------------------------------------------------
-plot(envs[[6]], what = "resources", metric = "usage", "doctor", items = "server", steps = TRUE)
+plot(get_mon_resources(envs[[6]]), metric = "usage", "doctor", items = "server", steps = TRUE)
 
 ## ---- message=FALSE------------------------------------------------------
-plot(envs, what = "arrivals", metric = "flow_time")
+arrivals <- get_mon_arrivals(envs)
+plot(arrivals, metric = "flow_time")
 

@@ -1,7 +1,7 @@
 Package: simmer.plot
 Type: Package
 Title: Plotting Methods for 'simmer'
-Version: 0.1.13
+Version: 0.1.14
 Authors@R: c(
     person("Iñaki", "Ucar", email="i.ucar86@gmail.com", 
       role=c("aut", "cph", "cre"), comment=c(ORCID="0000-0001-6403-5550")),
@@ -19,9 +19,9 @@ ByteCompile: yes
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2018-03-02 11:49:16 UTC; inaki
+Packaged: 2018-08-04 17:29:22 UTC; inaki
 Author: Iñaki Ucar [aut, cph, cre] (<https://orcid.org/0000-0001-6403-5550>),
   Bart Smeets [aut, cph]
 Maintainer: Iñaki Ucar <i.ucar86@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-03-02 11:56:19 UTC
+Date/Publication: 2018-08-04 21:50:10 UTC

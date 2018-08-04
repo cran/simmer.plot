@@ -1,3 +1,10 @@
+# simmer.plot 0.1.14
+
+## Minor changes and fixes
+
+* Arrange factors (`names` and `items` in `plot.resources`) in the order provided (#15).
+* Improve documentation (#16).
+
 # simmer.plot 0.1.13
 
 ## Minor changes and fixes

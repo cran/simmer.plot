@@ -1,8 +1,8 @@
-## ---- echo = FALSE, message = FALSE--------------------------------------
+## ---- echo = FALSE, message = FALSE-------------------------------------------
 knitr::opts_chunk$set(collapse = T, comment = "#>", 
                       fig.width = 6, fig.height = 8, fig.align = "center")
 
-## ---- message=FALSE------------------------------------------------------
+## ---- message=FALSE-----------------------------------------------------------
 library(simmer)
 
 t0 <- trajectory() %>%
@@ -30,7 +30,7 @@ t0 <- trajectory() %>%
   rollback(2) %>%
   release("res0", 1)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  library(simmer.plot)
 #  
 #  get_palette <- scales::brewer_pal(type = "qual", palette = 1)

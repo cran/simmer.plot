@@ -1,8 +1,8 @@
-## ---- echo = FALSE, message = FALSE--------------------------------------
+## ---- echo = FALSE, message = FALSE-------------------------------------------
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", 
                       fig.width = 6, fig.height = 4, fig.align = "center")
 
-## ---- message=FALSE------------------------------------------------------
+## ---- message=FALSE-----------------------------------------------------------
 library(simmer)
 library(parallel)
 
@@ -30,19 +30,19 @@ envs <- mclapply(1:100, function(i) {
     wrap()
 })
 
-## ---- message=FALSE------------------------------------------------------
+## ---- message=FALSE-----------------------------------------------------------
 library(simmer.plot)
 
 resources <- get_mon_resources(envs)
 plot(resources, metric = "utilization")
 
-## ---- message=FALSE------------------------------------------------------
+## ---- message=FALSE-----------------------------------------------------------
 plot(resources, metric = "usage", c("nurse", "doctor"), items = "server")
 
-## ---- message=FALSE------------------------------------------------------
+## ---- message=FALSE-----------------------------------------------------------
 plot(get_mon_resources(envs[[6]]), metric = "usage", "doctor", items = "server", steps = TRUE)
 
-## ---- message=FALSE------------------------------------------------------
+## ---- message=FALSE-----------------------------------------------------------
 arrivals <- get_mon_arrivals(envs)
 plot(arrivals, metric = "flow_time")
 

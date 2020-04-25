@@ -1,7 +1,7 @@
 Package: simmer.plot
 Type: Package
 Title: Plotting Methods for 'simmer'
-Version: 0.1.15
+Version: 0.1.16
 Authors@R: c(
     person("Iñaki", "Ucar", email="iucar@fedoraproject.org",
       role=c("aut", "cph", "cre"), comment=c(ORCID="0000-0001-6403-5550")),
@@ -15,12 +15,12 @@ Depends: R (>= 3.1.2), simmer (>= 3.6.0), ggplot2 (>= 2.2.0)
 Imports: DiagrammeR (>= 1.0.0), dplyr (>= 0.7.0), tidyr (>= 0.7.0),
         scales, utils
 Suggests: testthat, knitr, rmarkdown
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-03-10 16:50:21 UTC; iucar
+Packaged: 2020-04-25 15:13:25 UTC; iucar
 Author: Iñaki Ucar [aut, cph, cre] (<https://orcid.org/0000-0001-6403-5550>),
   Bart Smeets [aut, cph]
 Maintainer: Iñaki Ucar <iucar@fedoraproject.org>
 Repository: CRAN
-Date/Publication: 2019-03-10 20:30:03 UTC
+Date/Publication: 2020-04-25 17:50:02 UTC

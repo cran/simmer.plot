@@ -1,3 +1,11 @@
+# simmer.plot 0.1.18
+
+- Fix rollback parsing for simmer > 4.4.5.
+- Fix test warnings due to deprecated features.
+- Remove deprecated methods `plot.simmer` and `plot.wrap`.
+- Fix clone postprocessing when `n` is specified as a function (#27).
+- Add support for activity tags and named rollbacks (#26).
+
 # simmer.plot 0.1.17
 
 - Fix calculation of resource utilization when zero capacity values are present
